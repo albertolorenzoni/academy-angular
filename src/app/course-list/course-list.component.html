@@ -1,0 +1,42 @@
+<div class='card'>
+    <div class='card-header'>
+        <h3 id="custom-h-left">
+            {{pageTitle}}
+        </h3>
+    </div>
+    <div class='card-body'>
+        <div class='table-responsive'>
+            <table class='table' *ngIf='courseList && courseList.length'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Course</th>
+                        <th>Capacity</th>
+                        <th>Classroom</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let c of courseList'>
+                        <td>{{ c.id }}</td>
+                        <td>
+                            <a [routerLink]="['/courses', c.id, 'calendar']">{{ c.name }}</a>
+                        </td>
+                        <td>{{ c.capacity }}</td>
+                        <td>{{ c.prefClassroomName }}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" id="custom-button-right"
+                                [routerLink]="['/courses', c.id, 'calendartool']">
+                                Schedule course
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div *ngIf='errorMessage' class='alert alert-danger'>
+    Error: {{ errorMessage }}
+</div>

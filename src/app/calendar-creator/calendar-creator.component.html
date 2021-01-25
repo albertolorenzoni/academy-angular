@@ -1,0 +1,80 @@
+<div class="card">
+    <div class="card-header">
+        Insert lesson days and time
+    </div>
+
+
+    <div class="card-body">
+        <form novalidate (ngSubmit)="createCalendar()" [formGroup]="preferencesForm">
+
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label" for="startDateId">Start date</label>
+                <div class="col-md-8">
+                    <input class="form-control" id="startDateId" type="date" formControlName="startDate"
+                        [ngClass]="{'is-invalid': !preferencesForm.get('startDate').valid }" />
+                    <span class="invalid-feedback">
+                        <span *ngIf="preferencesForm.get('startDate').errors?.required">
+                            Please enter a starting date.
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <ng-container formArrayName="daysPrefs">
+                <div [formGroupName]="i" *ngFor="let day of daysPrefs.controls; let i = index">
+
+                    <ng-container class="input-group-prepend" >
+
+                        <div class="input-group-prepend">
+                            <label class="col-md-2 col-form-label pt-0" for="weekdayId">Week day</label>
+                            <select class="form-control" id="weekdayId" formControlName="day">
+                                <option value="" selected="selected" disabled="disabled"> -- select day --
+                                </option>
+                                <option value="SUNDAY">Sun</option>
+                                <option value="MONDAY">Mon</option>
+                                <option value="TUESDAY">Tue</option>
+                                <option value="WEDNESDAY">Wed</option>
+                                <option value="THURSDAY">Thu</option>
+                                <option value="FRIDAY">Fri</option>
+                                <option value="SATURDAY">Sat</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group-prepend">
+                            <label class="col-md-2 col-form-label" for="startTimeId">Start time</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="startTimeId" type="time" formControlName="startTime">
+                            </div>
+                        </div>
+
+                        <div class="input-group-prepend">
+                            <label class="col-md-2 col-form-label" for="endTimeId">End time</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="endTimeId" type="time" formControlName="endTime">
+                            </div>
+                        </div>
+                    </ng-container>
+
+
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <div class="col-md-4">
+                        <button class="btn btn-outline-primary" type="button" (click)="addDaysPrefs()">
+                            Add lesson
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+
+            <div class="form-group row mb-2">
+                <div class="offset-md-2 col-md-4">
+                    <button class="btn btn-primary mr-3" type="submit" style="width:80px">
+                        <!-- add validity check -->
+                        Generate calendar
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

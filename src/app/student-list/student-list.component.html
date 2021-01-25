@@ -1,0 +1,37 @@
+<div class='card'>
+    <div class='card-header'>
+        <h3 id="custom-h-left">
+            {{pageTitle}}
+        </h3>
+        <button type="button" class="btn btn-primary btn-lg" id="custom-button-right" routerLink="add">
+            Add new student
+        </button>
+    </div>
+    <div class='card-body'>
+        <div class='table-responsive'>
+            <table class='table' *ngIf='studentList && studentList.length'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let s of studentList'>
+                        <td>{{ s.id }}</td>
+                        <td>
+                            <a [routerLink]="['/students', s.id]">
+                                {{ s.firstName }} {{s.lastName}}
+                            </a>
+                        </td>
+                        <td>{{ s.email }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div *ngIf='errorMessage' class='alert alert-danger'>
+    Error: {{ errorMessage }}
+</div>

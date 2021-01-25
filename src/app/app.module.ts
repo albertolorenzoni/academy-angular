@@ -3,14 +3,34 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { CourseListComponent } from './course-list/course-list.component';
+import { StudentDetailComponent } from './student-detail/student-detail.component';
+import { StudentAddComponent } from './student-add/student-add.component';
+import { HomeComponent } from './home/home.component';
+import { StudentListComponent } from './student-list/student-list.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CalendarCreatorComponent } from './calendar-creator/calendar-creator.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    CourseListComponent,
+    StudentDetailComponent,
+    StudentAddComponent,
+    HomeComponent,
+    StudentListComponent,
+    CalendarCreatorComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
