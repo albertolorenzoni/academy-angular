@@ -1,115 +1,161 @@
-<div class='card'>
-    <div class='card-header'>
-        <h3 id="custom-h-left" *ngIf="student">
-            {{student.firstName}} {{student.lastName}}
-            <h5 id="custom-h5">
-                Id: {{student.id}}
-            </h5>
-        </h3>
-        <button *ngIf="!modify" type="button" class="btn btn-primary btn-lg" id="custom-button-right"
-            (click)="enableModify()">
-            Modify student
-        </button>
-    </div>
+<div class="container-fluid">
+    <div class='card'>
+        <div class='card-header'>
+            <h3 id="custom-h-left" *ngIf="student">
+                {{student.firstName}} {{student.lastName}}
+                <h5 id="custom-h5">
+                    Id: {{student.id}}
+                </h5>
+            </h3>
+            <div *ngIf="!modify" class="row custom-button-right">
+                <div class="col-xs-4"><button type="button" class="btn btn-primary btn-block" (click)="enableModify()">
+                        Edit
+                    </button></div>
+                <div class="col-xs-4"><button type="button" class="btn btn-primary btn-danger btn-block"
+                        (click)="confirmDelete()">Delete</button></div>
 
-    <div class="card-body">
-        <form novalidate (ngSubmit)="update()" [formGroup]="studentForm" *ngIf="studentForm">
+            </div>
 
-            <div class="form-group row mb-2">
-                <label class="col-md-2 col-form-label" for="firstNameId">First name</label>
-                <div class="col-md-8">
-                    <input [readonly]="!modify" class="form-control" id="firstNameId" type="text"
-                        formControlName="firstName" [ngClass]="{'is-invalid': (studentForm.get('firstName').touched ||
-                        studentForm.get('firstName').dirty) &&
-                        !studentForm.get('firstName').valid }" />
-                    <span class="invalid-feedback">
-                        <span *ngIf="studentForm.get('firstName').errors?.required">
-                            Please enter your name.
+        </div>
+
+        <div class="card-body">
+            <form novalidate (ngSubmit)="update()" [formGroup]="studentForm" *ngIf="studentForm">
+
+                <div class="form-group row mb-2">
+                    <label class="col-md-2 col-form-label" for="firstNameId">First name</label>
+                    <div class="col-md-8">
+                        <input [readonly]="!modify" class="form-control" id="firstNameId" type="text"
+                            formControlName="firstName" [ngClass]="{'is-invalid': (studentForm.get('firstName').touched ||
+                            studentForm.get('firstName').dirty) &&
+                            !studentForm.get('firstName').valid }" />
+                        <span class="invalid-feedback">
+                            <span *ngIf="studentForm.get('firstName').errors?.required">
+                                Please enter your name.
+                            </span>
                         </span>
-                    </span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row mb-2">
-                <label class="col-md-2 col-form-label" for="lastNameId">Last name</label>
-                <div class="col-md-8">
-                    <input [readonly]="!modify" class="form-control" id="lastNameId" type="text"
-                        placeholder="Insert last name" formControlName="lastName" [ngClass]="{'is-invalid': (studentForm.get('lastName').touched ||
-                        studentForm.get('lastName').dirty) &&
-                        !studentForm.get('lastName').valid }" />
-                    <span class="invalid-feedback">
-                        <span *ngIf="studentForm.get('lastName').errors?.required">
-                            Please enter your last name.
+                <div class="form-group row mb-2">
+                    <label class="col-md-2 col-form-label" for="lastNameId">Last name</label>
+                    <div class="col-md-8">
+                        <input [readonly]="!modify" class="form-control" id="lastNameId" type="text"
+                            placeholder="Insert last name" formControlName="lastName" [ngClass]="{'is-invalid': (studentForm.get('lastName').touched ||
+                            studentForm.get('lastName').dirty) &&
+                            !studentForm.get('lastName').valid }" />
+                        <span class="invalid-feedback">
+                            <span *ngIf="studentForm.get('lastName').errors?.required">
+                                Please enter your last name.
+                            </span>
                         </span>
-                    </span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row mb-2">
-                <label class="col-md-2 col-form-label" for="emailId">Email</label>
-                <div class="col-md-8">
-                    <input [readonly]="!modify" class="form-control" id="emailId" type="email"
-                        placeholder="your@email.com" formControlName="email" [ngClass]="{'is-invalid': (studentForm.get('email').touched ||
-                        studentForm.get('email').dirty) &&
-                        !studentForm.get('email').valid }" />
-                    <span class="invalid-feedback">
-                        <span *ngIf="studentForm.get('email').errors?.required">
-                            Please enter your email.
+                <div class="form-group row mb-2">
+                    <label class="col-md-2 col-form-label" for="emailId">Email</label>
+                    <div class="col-md-8">
+                        <input [readonly]="!modify" class="form-control" id="emailId" type="email"
+                            placeholder="your@email.com" formControlName="email" [ngClass]="{'is-invalid': (studentForm.get('email').touched ||
+                            studentForm.get('email').dirty) &&
+                            !studentForm.get('email').valid }" />
+                        <span class="invalid-feedback">
+                            <span *ngIf="studentForm.get('email').errors?.required">
+                                Please enter your email.
+                            </span>
+                            <span *ngIf="studentForm.get('email').errors?.email">
+                                Please enter a valid email.
+                            </span>
                         </span>
-                        <span *ngIf="studentForm.get('email').errors?.email">
-                            Please enter a valid email.
-                        </span>
-                    </span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row mb-2" *ngIf="!modify">
-                <label class="col-md-2 col-form-label" for="dobReadId">Date of birth</label>
-                <div class="col-md-8">
-                    <input readonly class="form-control" id="dobReadId" type="text" formControlName="dateOfBirth" />
-
+                <div class="form-group row mb-2" *ngIf="!modify">
+                    <label class="col-md-2 col-form-label" for="dobReadId">Date of birth</label>
+                    <div class="col-md-8">
+                        <input readonly class="form-control" id="dobReadId" type="text" formControlName="dateOfBirth" />
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row mb-2" *ngIf="modify">
-                <label class="col-md-2 col-form-label" for="dobId">Date of birth</label>
-                <div class="col-md-8">
-                    <input class="form-control" id="dobId" type="date"
-                        formControlName="dateOfBirth"/>
+                <div class="form-group row mb-2" *ngIf="modify">
+                    <label class="col-md-2 col-form-label" for="dobId">Date of birth</label>
+                    <div class="col-md-8">
+                        <input class="form-control" id="dobId" type="date" formControlName="dateOfBirth" />
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row mb-2" *ngIf="!modify">
-                <label class="col-md-2 col-form-label" for="educationReadId">Education</label>
-                <div class="col-md-8">
-                    <input readonly class="form-control" id="educationReadId" type="text" formControlName="education" />
+                <div class="form-group row mb-2" *ngIf="!modify">
+                    <label class="col-md-2 col-form-label" for="educationReadId">Education</label>
+                    <div class="col-md-8">
+                        <input readonly class="form-control" id="educationReadId" type="text"
+                            formControlName="education" />
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row mb-2" *ngIf="modify">
-                <label class="col-md-2 col-form-label" for="educationId">Education</label>
-                <div class="col-md-8">
-                    <select class="form-control" id="educationId" formControlName="education">
-                        <option value="" selected="selected"></option>
-                        <option value="No formal education">No formal education</option>
-                        <option value="Primary education">Primary education</option>
-                        <option value="Secondary education">Secondary education or high school</option>
-                        <option value="Vocational qualification">Vocational qualification</option>
-                        <option value="Bachelor's degree">Bachelor's degree</option>
-                        <option value="Master's degree">Master's degree</option>
-                        <option value="Doctorate or higher">Doctorate or higher</option>
-                    </select>
+                <div class="form-group row mb-2" *ngIf="modify">
+                    <label class="col-md-2 col-form-label" for="educationId">Education</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="educationId" formControlName="education">
+                            <option value="" selected="selected"></option>
+                            <option value="No formal education">No formal education</option>
+                            <option value="Primary education">Primary education</option>
+                            <option value="Secondary education">Secondary education or high school</option>
+                            <option value="Vocational qualification">Vocational qualification</option>
+                            <option value="Bachelor's degree">Bachelor's degree</option>
+                            <option value="Master's degree">Master's degree</option>
+                            <option value="Doctorate or higher">Doctorate or higher</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div *ngIf="modify">
-                <button type="submit" class="btn btn-primary" [disabled]="!studentForm.valid">Submit changes</button>
-            </div>
-        </form>
-        <div *ngIf="!modify">
-            <button type="submit" class="btn btn-primary btn-danger" (click)="confirmDelete()">Delete student</button>
+                <div *ngIf="modify">
+                    <button type="submit" class="btn btn-primary" [disabled]="!studentForm.valid">Submit
+                        changes</button>
+                </div>
+            </form>
         </div>
     </div>
+    <div *ngIf='errorMessage' class='alert alert-danger'>
+        Error: {{ errorMessage }}
+    </div>
+
+    <div class='card' *ngIf='!modify && student.enrollments && student.enrollments.length'>
+        <div class='card-header'>
+            <h4>Enrollments</h4>
+        </div>
+        <table class='table' *ngIf='student.enrollments && student.enrollments.length'>
+            <tbody>
+                <tr *ngFor='let e of student.enrollments'>
+                    <td><a [routerLink]="['/courses', e.courseId, 'calendar']">{{ e.courseName }}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div *ngIf='!modify' class="d-flex justify-content-center">
+        <button type="button" class="btn btn-primary" (click)="openEnrollmentModal(content)">
+            Add enrollment
+        </button>
+    </div>
+    <br>
+
 </div>
-<div *ngIf='errorMessage' class='alert alert-danger'>
-    Error: {{ errorMessage }}
-</div>
+
+<ng-template #content let-modal>
+
+    <div class="modal-header">
+        <h4 class="modal-title">Enroll student</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form (ngSubmit)="enroll()">
+        <div class="modal-body">
+            <select class="form-control" id="courseId" [formControl]="enrollmentCourseId">
+                <option *ngFor="let c of courses" [value]="c.id">{{c.name}}</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-light">Confirm</button>
+        </div>
+    </form>
+
+</ng-template>

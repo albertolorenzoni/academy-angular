@@ -1,6 +1,9 @@
+import { Enrollment } from "./Enrollment";
+
 export class Student {
 
     id?: number;
+    enrollments: Enrollment[];
 
     constructor(
         public firstName: string,

@@ -1,9 +1,14 @@
 import { DatePipe, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Student } from '../model/student';
+import { Student } from '../model/Student';
 import { StudentService } from '../service/student.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Course } from '../model/Course';
+import { CourseService } from '../service/course.service';
+import { Enrollment } from '../model/Enrollment';
+import { EnrollmentService } from '../service/enrollment.service';
 
 @Component({
   selector: 'app-student-detail',
@@ -13,24 +18,28 @@ import { StudentService } from '../service/student.service';
 })
 export class StudentDetailComponent implements OnInit {
 
-  today = new Date();
   errorMessage: String = "";
   modify: boolean = false;
   studentForm: FormGroup;
   student!: Student;
+  courses: Course[];
+  enrollment = new Enrollment;
+  enrollmentCourseId = new FormControl; 
 
   constructor(
     private fb: FormBuilder,
     private studentService: StudentService,
+    private courseService: CourseService,
+    private enrollmentService: EnrollmentService,
     private route: ActivatedRoute,
     private location: Location,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
+    private modalService: NgbModal
   ) {
 
   }
 
   ngOnInit(): void {
-    console.log(this.today);
     this.studentService.getStudentById(this.route.snapshot.params.id)
       .subscribe({
         next: data => {
@@ -39,15 +48,21 @@ export class StudentDetailComponent implements OnInit {
             firstName: [this.student.firstName, [Validators.required]],
             lastName: [this.student.lastName, [Validators.required]],
             email: [this.student.email, [Validators.required, Validators.email]],
-            dateOfBirth: [this.datepipe.transform(this.student.dateOfBirth, 'yyy-MM-dd'),
+            dateOfBirth: [this.datepipe.transform(this.student.dateOfBirth, 'dd-MM-yyy'),
             [Validators.required]],
-            education: this.student.education
+            education: this.student.education,
           });
         },
         error: err => this.errorMessage = err
       });
 
-
+      this.courseService.getCoursesList()
+        .subscribe({
+          next: courses => {
+            this.courses = courses;
+          },
+          error: err => this.errorMessage = err
+        });
   }
 
   enableModify() {
@@ -59,7 +74,7 @@ export class StudentDetailComponent implements OnInit {
     .subscribe({
       next: () => {
         alert("Student updated");
-        this.location.back();
+        this.modify = false;
       },
       error: err => this.errorMessage = err
     })
@@ -80,5 +95,21 @@ export class StudentDetailComponent implements OnInit {
     if (confirm('Are you sure you want to delete this student?')) {
       this.delete();
     }
+  }
+
+  openEnrollmentModal(content: any) {
+    this.modalService.open(content, { size: 'l' });
+  }
+
+  enroll() {
+    this.enrollment.studentId = this.student.id;
+    this.enrollment.courseId = this.enrollmentCourseId.value;
+    this.enrollmentService.addEnrollment(this.enrollment).subscribe({
+      next: () => {
+        //alert("Successfully enrolled student");
+        this.ngOnInit();
+      },
+      error: err => this.errorMessage = err
+    });
   }
 }
